@@ -23,13 +23,11 @@ export default function SignIn() {
     try {
       const result = await signIn(provider, {
         callbackUrl: '/',
-        redirect: false,
+        redirect: true,
       });
       
-      if (result?.ok) {
-        router.push('/');
-      } else {
-        console.error('로그인 실패:', result?.error);
+      if (result?.error) {
+        console.error('로그인 실패:', result.error);
       }
     } catch (error) {
       console.error('로그인 중 오류:', error);

@@ -15,6 +15,12 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    async redirect({ url, baseUrl }) {
+      // 로그인 성공 후 메인 페이지로 리디렉션
+      if (url.startsWith('/')) return `${baseUrl}${url}`;
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
+    },
     async jwt({ token, account, profile }) {
       // 첫 로그인 시 사용자 정보 저장
       if (account && profile) {
