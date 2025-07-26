@@ -119,7 +119,74 @@ export default function AIGameRoom({ gameData, onComplete }: AIGameRoomProps) {
       }
     } catch (error) {
       console.error('AI 시 생성 오류:', error);
+      
+      // 폴백: 템플릿 기반 시 생성
+      const fallbackPoems: Record<string, any> = {
+        '사랑해': {
+          line1: '사람은 혼자서는 살 수 없어',
+          line2: '랑하는 마음이 있어야만',
+          line3: '해피엔딩을 만들 수 있지'
+        },
+        '고마워': {
+          line1: '고개 숙여 인사드려요',
+          line2: '마음 깊이 새겨놓은',
+          line3: '워밍한 당신의 사랑을'
+        },
+        '벚꽃비': {
+          line1: '벚꽃이 흩날리는 봄날',
+          line2: '꽃잎처럼 떨어지는 추억',
+          line3: '비 오듯 내리는 그리움'
+        },
+        '별하늘': {
+          line1: '별빛이 쏟아지는 밤',
+          line2: '하늘을 올려다보며',
+          line3: '늘 꿈꾸던 소원을 빌어'
+        },
+        '친구야': {
+          line1: '친하게 지내던 그때가',
+          line2: '구름처럼 떠오르네',
+          line3: '야속하게도 시간은 빨라'
+        },
+        '엄마야': {
+          line1: '엄청난 사랑으로 키워주신',
+          line2: '마음 깊이 감사드려요',
+          line3: '야무지게 효도하며 살게요'
+        },
+        '행복해': {
+          line1: '행운이 가득한 하루',
+          line2: '복스러운 웃음소리가',
+          line3: '해맑게 울려 퍼지네'
+        },
+        '꿈나무': {
+          line1: '꿈을 키우는 아이들이',
+          line2: '나날이 자라나는 모습',
+          line3: '무럭무럭 푸르게 자라네'
+        },
+        '바다야': {
+          line1: '바람이 불어오는 해변',
+          line2: '다정한 파도소리와 함께',
+          line3: '야경이 아름다운 밤'
+        },
+        '하늘아': {
+          line1: '하얗게 떠가는 구름',
+          line2: '늘 푸른 창공 아래서',
+          line3: '아름다운 세상을 바라봐'
+        }
+      };
+
+      const fallback = fallbackPoems[gameData.theme] || {
+        line1: `${gameData.theme[0]}로 시작하는 이야기`,
+        line2: `${gameData.theme[1] || gameData.theme[0]}처럼 아름다운`,
+        line3: `${gameData.theme[2] || gameData.theme[0]}과 함께하는 시간`
+      };
+
+      setAiPoem(fallback);
       setGamePhase('complete');
+      
+      // 결과 콜백 호출
+      if (onComplete) {
+        onComplete(poem, fallback);
+      }
     }
   };
 
