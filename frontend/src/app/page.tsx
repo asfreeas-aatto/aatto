@@ -163,7 +163,23 @@ export default function Home() {
           <>
             {/* 게임 메뉴 */}
             <div className="grid md:grid-cols-2 gap-6">
-              <MatchmakingQueue onMatchFound={handleMatchFound} />
+              <div className="bg-white rounded-2xl shadow-lg p-8 text-center">
+                <div className="text-6xl mb-4">⚔️</div>
+                <h3 className="text-xl font-bold mb-2 text-gray-800">실시간 대전</h3>
+                <p className="text-gray-600 mb-6">다른 사용자와 실시간으로 3행시 배틀!</p>
+                <div className="bg-yellow-100 border border-yellow-300 rounded-lg p-4 mb-4">
+                  <p className="text-sm text-yellow-800">
+                    🚧 백엔드 서버 배포 중입니다.<br/>
+                    곧 실시간 대전을 즐기실 수 있어요!
+                  </p>
+                </div>
+                <Button 
+                  disabled
+                  className="w-full bg-gray-300 text-gray-500 cursor-not-allowed"
+                >
+                  준비 중...
+                </Button>
+              </div>
 
               <div className="bg-white rounded-2xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow cursor-pointer">
                 <div className="text-6xl mb-4">🤖</div>
@@ -215,112 +231,6 @@ export default function Home() {
                   <p className="text-2xl font-bold text-orange-600">0</p>
                   <p className="text-sm text-gray-500">연승</p>
                 </div>
-              </div>
-            </div>
-            
-            {/* 임시 테스트 버튼들 */}
-            <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-6 mt-6">
-              <h3 className="text-lg font-bold mb-4 text-yellow-800">🧪 개발 테스트</h3>
-              <div className="grid md:grid-cols-5 gap-3">
-                <Button 
-                  onClick={() => setGameData({
-                    gameId: 'test-game-1',
-                    theme: '사랑해',
-                    timeLimit: 180,
-                    opponent: { nickname: '테스트상대' }
-                  })}
-                  variant="outline"
-                  className="text-xs"
-                >
-                  게임룸 테스트
-                </Button>
-                <Button 
-                  onClick={() => {
-                    setPoems([
-                      {
-                        _id: 'poem1',
-                        userId: 'user1',
-                        votes: 3,
-                        author: { profile: { nickname: '나' } },
-                        content: { line1: '사람은 혼자서는 살 수 없어', line2: '랑하는 마음이 있어야만', line3: '해피엔딩을 만들 수 있지' }
-                      },
-                      {
-                        _id: 'poem2', 
-                        userId: 'user2',
-                        votes: 5,
-                        author: { profile: { nickname: '테스트상대' } },
-                        content: { line1: '사랑스러운 너의 미소', line2: '랑만적인 우리 시간', line3: '해맑은 웃음이 좋아' }
-                      }
-                    ]);
-                    setGameData({
-                      gameId: 'test-game-2',
-                      theme: '사랑해',
-                      timeLimit: 30,
-                      opponent: { nickname: '테스트상대' }
-                    });
-                  }}
-                  variant="outline" 
-                  className="text-xs"
-                >
-                  투표룸 테스트
-                </Button>
-                <Button 
-                  onClick={() => {
-                    const testResults = [
-                      {
-                        _id: 'poem1',
-                        userId: session?.user?.email || 'user1',
-                        votes: 3,
-                        author: { profile: { nickname: '나' } },
-                        content: { line1: '사람은 혼자서는 살 수 없어', line2: '랑하는 마음이 있어야만', line3: '해피엔딩을 만들 수 있지' }
-                      },
-                      {
-                        _id: 'poem2', 
-                        userId: 'user2',
-                        votes: 5,
-                        author: { profile: { nickname: '테스트상대' } },
-                        content: { line1: '사랑스러운 너의 미소', line2: '랑만적인 우리 시간', line3: '해맑은 웃음이 좋아' }
-                      }
-                    ];
-                    setResults(testResults);
-                    setWinner({ 
-                      userId: 'user2', 
-                      profile: { nickname: '테스트상대' } 
-                    });
-                    setGameData({
-                      gameId: 'test-game-3',
-                      theme: '사랑해',
-                      timeLimit: 0,
-                      opponent: { nickname: '테스트상대' }
-                    });
-                  }}
-                  variant="outline"
-                  className="text-xs"
-                >
-                  결과룸 테스트
-                </Button>
-                <Button 
-                  onClick={() => {
-                    setGameData(null);
-                    setPoems([]);
-                    setResults([]);
-                    setWinner(null);
-                  }}
-                  variant="outline"
-                  className="text-xs"
-                >
-                  초기화
-                </Button>
-                <Button 
-                  onClick={async () => {
-                    // NextAuth 세션 강제 업데이트
-                    window.location.href = '/api/auth/signin';
-                  }}
-                  variant="outline"
-                  className="text-xs bg-red-50"
-                >
-                  세션 새로고침
-                </Button>
               </div>
             </div>
           </>

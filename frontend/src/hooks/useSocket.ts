@@ -53,11 +53,21 @@ export const useSocket = () => {
       return;
     }
 
-    console.log('🔄 Attempting Socket connection to:', process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
+    // 백엔드가 배포되지 않은 경우 Socket 연결 스킵
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    if (!apiUrl || apiUrl === 'http://localhost:3001') {
+      console.log('⚠️ Backend not deployed, skipping Socket connection');
+      setIsConnected(false);
+      // 가짜 큐 상태 설정
+      setQueueStatus({ total: 0, byRank: {} });
+      return;
+    }
+
+    console.log('🔄 Attempting Socket connection to:', apiUrl);
     console.log('👤 Session user:', session.user);
 
     // Socket 연결
-    const socket = io(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001', {
+    const socket = io(apiUrl, {
       forceNew: true,
       timeout: 20000,
       transports: ['polling', 'websocket'],
